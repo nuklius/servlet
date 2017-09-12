@@ -17,8 +17,6 @@ import org.hibernate.query.Query;
 
 import com.example.entity.user;
 
-
-
 @WebServlet(urlPatterns = "/test")
 public class TestServlet extends HttpServlet {
 
@@ -77,20 +75,49 @@ public class TestServlet extends HttpServlet {
         resp.setContentType("text/html;charset=utf-8");
         PrintWriter pw = resp.getWriter();
 
-        
         try (SessionFactory sessionFactory = new Configuration()
                 .configure()
-                .buildSessionFactory()) {
-            Session session = sessionFactory.openSession();
-            
-            pw.println("error2");
+                .buildSessionFactory(); Session session = sessionFactory.openSession()) {
 
+            Transaction transaction = session.beginTransaction();
+
+            
+            /*
+            добавление нового пользвотеля
+            //user newUser = new user();
+
+            //newUser.setLogin("qweww");
+            //newUser.setPassword("qweww");
+
+            //session.save(newUser);
+            
+            transaction.commit();
+
+            */
+            
+            /* можно проверить статус успешен/нет транзакции
+            if (transaction.getStatus().toString() == "COMMITTED") {
+                pw.println(student.getLogin());
+            } else if (transaction.getStatus().toString() == "FAILED_COMMIT") {
+                pw.println(student.toString() + transaction.getStatus().toString());
+            } else {
+                pw.println(student.toString() + transaction.getStatus().toString());
+            }*/
+            
+            /*вытащить данные из базы данных
+            так же потоп через student.set можно изменять значения ячеек
+            
+            user student = session.load(user.class, 3);       
+            transaction.commit();
+            
+            */
             
             session.close();
+            sessionFactory.close();
         }
         //pw.println("error");
+        //pw.println("error");
 
-        
     }
 
 }
